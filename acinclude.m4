@@ -1,40 +1,40 @@
 AC_DEFUN([AC_APREQ], [
 
         AC_ARG_ENABLE(profile,
-                AC_HELP_STRING([--enable-profile],[compile libapreq2 with "-pg -fprofile-arcs -ftest-coverage" for gcov/gprof]),
+                AS_HELP_STRING([--enable-profile],[compile libapreq2 with "-pg -fprofile-arcs -ftest-coverage" for gcov/gprof]),
                 [PROFILE=$enableval],[PROFILE="no"])
         AC_ARG_ENABLE(perl_glue,
-                AC_HELP_STRING([--enable-perl-glue],[build perl modules Apache::Request and Apache::Cookie]),
+                AS_HELP_STRING([--enable-perl-glue],[build perl modules Apache::Request and Apache::Cookie]),
                 [PERL_GLUE=$enableval],[PERL_GLUE="no"])
         AC_ARG_WITH(perl,
-                AC_HELP_STRING([--with-perl],[path to perl executable]),
+                AS_HELP_STRING([--with-perl],[path to perl executable]),
                 [PERL=$withval],[PERL="perl"])
         AC_ARG_WITH(apache2-apxs,
-                AC_HELP_STRING([--with-apache2-apxs],[path to apache2's apxs]),
+                AS_HELP_STRING([--with-apache2-apxs],[path to apache2's apxs]),
                 [APACHE2_APXS=$withval],[APACHE2_APXS="apxs"])
         AC_ARG_WITH(apache2-src,
-                AC_HELP_STRING([--with-apache2-src],[path to httpd source]),
+                AS_HELP_STRING([--with-apache2-src],[path to httpd source]),
                 [APACHE2_SRC=$withval],[APACHE2_SRC=""])
         AC_ARG_WITH(apache2-httpd,
-                AC_HELP_STRING([--with-apache2-httpd],[path to httpd binary]),
+                AS_HELP_STRING([--with-apache2-httpd],[path to httpd binary]),
                 [APACHE2_HTTPD=$withval],[APACHE2_HTTPD=""])
         AC_ARG_WITH(apr-config,
-                AC_HELP_STRING([  --with-apr-config],[path to apr-*-config script]),
+                AS_HELP_STRING([  --with-apr-config],[path to apr-*-config script]),
                 [APR_CONFIG=$withval],[APR_CONFIG=""])
         AC_ARG_WITH(apu-config,
-                AC_HELP_STRING([  --with-apu-config],[path to apu-*-config script]),
+                AS_HELP_STRING([  --with-apu-config],[path to apu-*-config script]),
                 [APU_CONFIG=$withval],[APU_CONFIG=""])
         AC_ARG_WITH(apache1-apxs,
-                AC_HELP_STRING([--with-apache1-apxs],[path to apache1's apxs]),
+                AS_HELP_STRING([--with-apache1-apxs],[path to apache1's apxs]),
                 [APACHE1_APXS=$withval],[APACHE1_APXS=""])
         AC_ARG_WITH(perl-opts,
-                AC_HELP_STRING([--with-perl-opts],[extra PERL options]),
+                AS_HELP_STRING([--with-perl-opts],[extra PERL options]),
                 [PERL_OPTS=$withval],[PERL_OPTS=""])
         AC_ARG_WITH(mm-opts,
-                AC_HELP_STRING([--with-mm-opts], [extra ExtUtils::MakeMaker options]),
+                AS_HELP_STRING([--with-mm-opts], [extra ExtUtils::MakeMaker options]),
                 [MM_OPTS=$withval], [MM_OPTS=""])
         AC_ARG_WITH(expat,
-                AC_HELP_STRING([--with-expat],[specify expat location]),
+                AS_HELP_STRING([--with-expat],[specify expat location]),
                 [EXPAT_DIR=$withval],[EXPAT_DIR=""])
 
         OS=`$PERL -e 'print $^O'`
@@ -69,7 +69,7 @@ AC_DEFUN([AC_APREQ], [
                 APR_MAJOR_VERSION=`$APACHE2_APXS -q APR_VERSION 2>/dev/null | cut -d. -f 1`
                 if test ${APR_MAJOR_VERSION:="0"} -eq 0; then
                     apr_config=apr-config
-                    apu_config=apu-config 
+                    apu_config=apu-config
                     apreq_libs="-lapr -laprutil"
                 else
                     apr_config=apr-$APR_MAJOR_VERSION-config
@@ -181,10 +181,10 @@ dnl Fallback to oldest version available
             apu_avoid_libs="--avoid-dbm $apu_avoid_libs"
         fi
 
-        dnl ld: fatal: recording name conflict: 
+        dnl ld: fatal: recording name conflict:
         dnl file `/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/../../../libexpat.so' and
-        dnl file `httpd/lib/libexpat.so' 
-        dnl provide identical dependency names: libexpat.so.0  
+        dnl file `httpd/lib/libexpat.so'
+        dnl provide identical dependency names: libexpat.so.0
         dnl (possible multiple inclusion of the same file)
         if test "x$OS" = "xsolaris"; then
             APU_LIBS="`$APU_CONFIG $apu_avoid_libs --libs | $PERL -pe 's,-lexpat,,'`"
@@ -257,7 +257,7 @@ dnl Fallback to oldest version available
         else
           TAR='tar'
         fi
-     
+
         AC_SUBST(APREQ_CONFIG)
         AC_SUBST(APREQ_LIBNAME)
         AC_SUBST(APREQ_LIBTOOL_VERSION)

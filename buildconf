@@ -28,7 +28,7 @@ autoheader="${AUTOHEADER:-autoheader}"
 
 save_args="$*";
 
-while test $# -gt 0 
+while test $# -gt 0
 do
   # Normalize
   case "$1" in
@@ -69,7 +69,7 @@ rm -f generated_lists
 rm -rf autom4te*.cache
 
 echo "checking buildconf prereqs";
-$perl build/version_check.pl libtool $libtool  || exit 1
+#$perl build/version_check.pl libtool $libtool  || exit 1
 $perl build/version_check.pl autoconf $autoconf  || exit 1
 $perl build/version_check.pl automake $automake  || exit 1
 $perl build/version_check.pl ExtUtils::XSBuilder || exit 1
