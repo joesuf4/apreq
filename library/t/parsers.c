@@ -40,19 +40,13 @@ static char form_data[] =
 "content-disposition: form-data; name=\"pics\"; filename=\"file1.txt\"" CRLF
 "Content-Type: text/plain" CRLF CRLF
 "... contents of file1.txt ..." CRLF CRLF
-"--AaB03x--" CRLF;
-
-/* This (invalid) case used to segfault the parser before r164254 so should
-   be tested separately to form_data:
-   
-static char form_data_fail[] =
+"--AaB03x" CRLF
+/* This case used to segfault the parser before r164254 */
 "content-disposition: form-data; name=\"\"" CRLF
 "content-type: text/plain;" CRLF " charset=windows-1250" CRLF
 "content-transfer-encoding: quoted-printable" CRLF CRLF
 "Joe owes =80100." CRLF
 "--AaB03x--" CRLF;
-
-*/
 
 static char xml_data[] =
 "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
@@ -237,7 +231,7 @@ static void parse_multipart(dAT, void *ctx)
             AT_int_eq(rv, (j < strlen(form_data)) ? APR_INCOMPLETE : APR_SUCCESS);
             rv = apreq_parser_run(parser, body, tail);
             AT_int_eq(rv, APR_SUCCESS);
-            AT_int_eq(apr_table_elts(body)->nelts, 2);
+            AT_int_eq(apr_table_elts(body)->nelts, 3);
 
             val = apr_table_get(body,"field1");
             AT_str_eq(val, "Joe owes =80100.");
@@ -560,5 +554,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-
