@@ -40,7 +40,7 @@
 #ifndef WIN32
 /**
  * The public APREQ functions are declared with APREQ_DECLARE(), so they may
- * use the most appropriate calling convention.  Public APR functions with 
+ * use the most appropriate calling convention.  Public APR functions with
  * variable arguments must use APR_DECLARE_NONSTD().
  *
  * @remark Both the declaration and implementations must use the same macro.
@@ -49,7 +49,7 @@
  */
 #define APREQ_DECLARE(d)                APR_DECLARE(d)
 /**
- * The public APEQ functions using variable arguments are declared with 
+ * The public APEQ functions using variable arguments are declared with
  * APEQ_DECLARE_NONSTD(), as they must follow the C language calling convention.
  * @see APEQ_DECLARE @see APEQ_DECLARE_DATA
  * @remark Both the declaration and implementations must use the same macro.
@@ -84,21 +84,21 @@
 #endif
 
 /**
- * Read chucks of data in 64k blocks from the request 
+ * Read chucks of data in 64k blocks from the request
  */
 
 #define APREQ_DEFAULT_READ_BLOCK_SIZE   (64  * 1024)
 
 /**
- * Maximum number of bytes mod_apreq2 will send off to libapreq2 for parsing. 
- * mod_apreq2 will log this event and subsequently remove itself 
- * from the filter chain.  
- * @see ap_set_read_limit  
+ * Maximum number of bytes mod_apreq2 will send off to libapreq2 for parsing.
+ * mod_apreq2 will log this event and subsequently remove itself
+ * from the filter chain.
+ * @see ap_set_read_limit
  */
 #define APREQ_DEFAULT_READ_LIMIT        (64 * 1024 * 1024)
 /**
- * Maximum number of bytes mod_apreq2 will let accumulate within the 
- * heap-buckets in a brigade. Excess data will be spooled to an 
+ * Maximum number of bytes mod_apreq2 will let accumulate within the
+ * heap-buckets in a brigade. Excess data will be spooled to an
  * appended file bucket
  * @see ap_set_brigade_read_limit
  */
@@ -125,7 +125,7 @@
  */
 #define APREQ_FLAGS_GET(f, name) (((f) >> name##_BIT) & name##_MASK)
 /**
- * Set specified bit f in bitfield name to value 
+ * Set specified bit f in bitfield name to value
  * Note the below BIT/Mask defines are used sans the
  * _BIT, _MASK because of the this define's \#\#_MASK, \#\#_BIT usage.
  * Each come in a pair
@@ -135,7 +135,7 @@
             | ((name##_MASK & (value)) << name##_BIT)))
 
 /**
- * Charset Bit 
+ * Charset Bit
  * @see APREQ_FLAGS_OFF @see APREQ_FLAGS_ON
  * @see APREQ_FLAGS_GET @see APREQ_FLAGS_SET
  */
@@ -149,7 +149,7 @@
 #define APREQ_CHARSET_MASK        255
 
 /**
- * Tainted Bit 
+ * Tainted Bit
  * @see APREQ_FLAGS_OFF @see APREQ_FLAGS_ON
  * @see APREQ_FLAGS_GET @see APREQ_FLAGS_SET
  */
@@ -176,7 +176,7 @@
 #define APREQ_COOKIE_VERSION_MASK   3
 
 /**
- * Cookie's Secure Bit 
+ * Cookie's Secure Bit
  * @see APREQ_FLAGS_OFF @see APREQ_FLAGS_ON
  * @see APREQ_FLAGS_GET @see APREQ_FLAGS_SET
  */
@@ -189,7 +189,7 @@
 #define APREQ_COOKIE_SECURE_MASK    1
 
 /**
- * Cookie's HttpOnly Bit 
+ * Cookie's HttpOnly Bit
  * @see APREQ_FLAGS_OFF @see APREQ_FLAGS_ON
  * @see APREQ_FLAGS_GET @see APREQ_FLAGS_SET
  */
@@ -200,6 +200,13 @@
  * @see APREQ_FLAGS_GET @see APREQ_FLAGS_SET
  */
 #define APREQ_COOKIE_HTTPONLY_MASK    1
+
+#define APREQ_COOKIE_SAMESITE_STRICT_BIT  15
+#define APREQ_COOKIE_SAMESITE_STRICT_MASK  1
+#define APREQ_COOKIE_SAMESITE_LAX_BIT     16
+#define APREQ_COOKIE_SAMESITE_LAX_MASK     1
+#define APREQ_COOKIE_SAMESITE_NONE_BIT    17
+#define APREQ_COOKIE_SAMESITE_NONE_MASK    1
 
 /** Character encodings. */
 typedef enum {
@@ -249,7 +256,7 @@ typedef struct apreq_value_t {
  *
  * @ see apr_table_t @see apr_value_t
  */
-  
+
 static APR_INLINE
 void apreq_value_table_add(const apreq_value_t *v, apr_table_t *t) {
     apr_table_addn(t, v->name, v->data);

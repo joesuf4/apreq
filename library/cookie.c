@@ -113,11 +113,23 @@ static apr_status_t apreq_cookie_attr(apr_pool_t *p,
         break;
 
     case 's':
-        if (vlen > 0 && *val != '0' && strncasecmp("off",val,vlen))
-            apreq_cookie_secure_on(c);
-        else
-            apreq_cookie_secure_off(c);
-        return APR_SUCCESS;
+        if (!strncasecmp("secure", attr, 7)) {
+            if (vlen > 0 && *val != '0' && strncasecmp("off",val,vlen))
+              apreq_cookie_secure_on(c);
+            else
+              apreq_cookie_secure_off(c);
+            return APR_SUCCESS;
+        }
+        if (!strncasecmp("samesite", attr, 8)) {
+            if (vlen > 0 && *val != '0' && !strncasecmp("strict", val, vlen))
+                apreq_cookie_samesite_strict_on(c);
+            else if (vlen > 0 && *val != '0' && !strncasecmp("lax", val, vlen))
+                apreq_cookie_samesite_lax_on(c);
+            else
+                apreq_cookie_samesite_none_on(c);
+            return APR_SUCCESS;
+        }
+        break;
 
     case 'h': /* httponly */
         if (vlen > 0 && *val != '0' && strncasecmp("off",val,vlen))
@@ -461,14 +473,7 @@ APREQ_DECLARE(int) apreq_cookie_serialize(const apreq_cookie_t *c,
         ADD_NS_ATTR(path);
         ADD_NS_ATTR(domain);
 
-        if (c->max_age != -1) {
-            strcpy(f, "; expires=%s");
-            apr_rfc822_date(expires, c->max_age + apr_time_now());
-            expires[7] = '-';
-            expires[11] = '-';
-        }
-        else
-            strcpy(f, "");
+        strcpy(f, c->max_age != -1 ? "; max-age=%" APR_TIME_T_FMT : "");
 
         f += strlen(f);
 
@@ -480,8 +485,15 @@ APREQ_DECLARE(int) apreq_cookie_serialize(const apreq_cookie_t *c,
         if (apreq_cookie_is_httponly(c))
             strcpy(f, "; HttpOnly");
 
+        if (apreq_cookie_is_samesite_strict(c))
+            strcpy(f, "; SameSite=Strict");
+        else if (apreq_cookie_is_samesite_lax(c))
+            strcpy(f, "; SameSite=Lax");
+        else if (apreq_cookie_is_samesite_none(c))
+            strcpy(f, "; SameSite=None");
+
         return apr_snprintf(buf, len, format, c->v.name, c->v.data,
-           NULL2EMPTY(c->path), NULL2EMPTY(c->domain), expires);
+           NULL2EMPTY(c->path), NULL2EMPTY(c->domain), apr_time_sec(c->max_age));
     }
 
     /* c->version == RFC */
@@ -519,7 +531,14 @@ APREQ_DECLARE(int) apreq_cookie_serialize(const apreq_cookie_t *c,
     if (apreq_cookie_is_httponly(c))
         strcpy(f, "; HttpOnly");
 
-    return apr_snprintf(buf, len, format, c->v.name, c->v.data, version,
+        if (apreq_cookie_is_samesite_strict(c))
+            strcpy(f, "; SameSite=Strict");
+        else if (apreq_cookie_is_samesite_lax(c))
+            strcpy(f, "; SameSite=Lax");
+        else if (apreq_cookie_is_samesite_none(c))
+            strcpy(f, "; SameSite=None");
+
+        return apr_snprintf(buf, len, format, c->v.name, c->v.data, version,
                         NULL2EMPTY(c->path), NULL2EMPTY(c->domain),
                         NULL2EMPTY(c->port), NULL2EMPTY(c->comment),
                         NULL2EMPTY(c->commentURL), apr_time_sec(c->max_age));
@@ -534,4 +553,3 @@ APREQ_DECLARE(char*) apreq_cookie_as_string(const apreq_cookie_t *c,
     apreq_cookie_serialize(c, s, n + 1);
     return s;
 }
-

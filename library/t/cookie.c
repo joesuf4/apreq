@@ -149,12 +149,7 @@ static void netscape_cookie(dAT, void *ctx)
               "foo=bar; path=/quux; domain=example.com");
 
     apreq_cookie_expires(c, "+1y");
-    apr_rfc822_date(expires, apr_time_now()
-                             + apr_time_from_sec(apreq_atoi64t("+1y")));
-    expires[7] = '-';
-    expires[11] = '-';
-    val = apr_pstrcat(p, "foo=bar; path=/quux; domain=example.com; expires=",
-                      expires, NULL);
+    val = apr_pstrcat(p, "foo=bar; path=/quux; domain=example.com; max-age=31536000", NULL);
 
     AT_str_eq(apreq_cookie_as_string(c, p), val);
 }

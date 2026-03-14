@@ -91,6 +91,56 @@ httponly(obj, val=NULL)
     RETVAL
 
 UV
+samesite_strict(obj, val=NULL)
+    APR::Request::Cookie obj
+    SV *val
+
+  CODE:
+    RETVAL = apreq_cookie_is_samesite_strict(obj);
+    if (items == 2) {
+        if (SvTRUE(val))
+            apreq_cookie_samesite_strict_on(obj);
+        else
+            apreq_cookie_samesite_strict_off(obj);
+    }
+
+  OUTPUT:
+    RETVAL
+
+UV
+samesite_lax(obj, val=NULL)
+    APR::Request::Cookie obj
+    SV *val
+
+  CODE:
+    RETVAL = apreq_cookie_is_samesite_lax(obj);
+    if (items == 2) {
+        if (SvTRUE(val))
+            apreq_cookie_samesite_lax_on(obj);
+        else
+            apreq_cookie_samesite_lax_off(obj);
+    }
+
+  OUTPUT:
+    RETVAL
+UV
+samesite_none(obj, val=NULL)
+    APR::Request::Cookie obj
+    SV *val
+
+  CODE:
+    RETVAL = apreq_cookie_is_samesite_none(obj);
+    if (items == 2) {
+        if (SvTRUE(val))
+            apreq_cookie_samesite_none_on(obj);
+        else
+            apreq_cookie_samesite_none_off(obj);
+    }
+
+  OUTPUT:
+    RETVAL
+
+UV
 version(obj, val=0)
     APR::Request::Cookie obj
     UV val
@@ -282,4 +332,3 @@ as_string(c)
 
   OUTPUT:
     RETVAL
-

@@ -43,7 +43,7 @@ extern "C" {
 
 /** This macro is deprecated.
  *
- * Maximum length of a single Set-Cookie(2) header. 
+ * Maximum length of a single Set-Cookie(2) header.
  */
 #define APREQ_COOKIE_MAX_LENGTH            4096
 
@@ -147,6 +147,53 @@ void apreq_cookie_tainted_off(apreq_cookie_t *c) {
     APREQ_FLAGS_OFF(c->flags, APREQ_TAINTED);
 }
 
+/** @return 1 if the SameSite=Strict is set, 0 otherwise. */
+static APR_INLINE
+unsigned apreq_cookie_is_samesite_strict(const apreq_cookie_t *c) {
+    return APREQ_FLAGS_GET(c->flags, APREQ_COOKIE_SAMESITE_STRICT);
+}
+/** Sets the cookie's SameSite=Strict flag. */
+static APR_INLINE
+void apreq_cookie_samesite_strict_on(apreq_cookie_t *c) {
+    APREQ_FLAGS_ON(c->flags, APREQ_COOKIE_SAMESITE_STRICT);
+}
+/** Turns off the cookie's SameSite=Strict flag. */
+static APR_INLINE
+void apreq_cookie_samesite_strict_off(apreq_cookie_t *c) {
+    APREQ_FLAGS_OFF(c->flags, APREQ_COOKIE_SAMESITE_STRICT);
+}
+/** @return 1 if the SameSite=Lax is set, 0 otherwise. */
+static APR_INLINE
+unsigned apreq_cookie_is_samesite_lax(const apreq_cookie_t *c) {
+    return APREQ_FLAGS_GET(c->flags, APREQ_COOKIE_SAMESITE_LAX);
+}
+/** Sets the cookie's SameSite=Lax flag. */
+static APR_INLINE
+void apreq_cookie_samesite_lax_on(apreq_cookie_t *c) {
+    APREQ_FLAGS_ON(c->flags, APREQ_COOKIE_SAMESITE_LAX);
+}
+/** Turns off the cookie's SameSite=Lax flag. */
+static APR_INLINE
+void apreq_cookie_samesite_lax_off(apreq_cookie_t *c) {
+    APREQ_FLAGS_OFF(c->flags, APREQ_COOKIE_SAMESITE_LAX);
+}
+/** @return 1 if the SameSite=None is set, 0 otherwise. */
+static APR_INLINE
+unsigned apreq_cookie_is_samesite_none(const apreq_cookie_t *c) {
+    return APREQ_FLAGS_GET(c->flags, APREQ_COOKIE_SAMESITE_NONE);
+}
+/** Sets the cookie's SameSite=None flag. */
+static APR_INLINE
+void apreq_cookie_samesite_none_on(apreq_cookie_t *c) {
+    APREQ_FLAGS_ON(c->flags, APREQ_COOKIE_SAMESITE_NONE);
+}
+/** Turns off the cookie's SameSite=Strict flag. */
+static APR_INLINE
+void apreq_cookie_samesite_none_off(apreq_cookie_t *c) {
+    APREQ_FLAGS_OFF(c->flags, APREQ_COOKIE_SAMESITE_NONE);
+}
+
+
 /**
  * Parse a cookie header and store the cookies in an apr_table_t.
  *
@@ -233,5 +280,3 @@ APREQ_DECLARE(void) apreq_cookie_expires(apreq_cookie_t *c,
 #endif
 
 #endif /*APREQ_COOKIE_H*/
-
-
