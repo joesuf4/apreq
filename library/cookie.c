@@ -485,6 +485,8 @@ APREQ_DECLARE(int) apreq_cookie_serialize(const apreq_cookie_t *c,
         if (apreq_cookie_is_httponly(c))
             strcpy(f, "; HttpOnly");
 
+        f += strlen(f);
+
         if (apreq_cookie_is_samesite_strict(c))
             strcpy(f, "; SameSite=Strict");
         else if (apreq_cookie_is_samesite_lax(c))
