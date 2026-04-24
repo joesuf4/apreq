@@ -1,7 +1,7 @@
 /** @page apreq_changes CHANGES
 @brief List of major changes.
 
-@subsubsection v2_19 Changes with libapreq2-2.18 (under development)
+@subsubsection v2_19 Changes with libapreq2-2.19 (under development)
 
 - C/Perl Cookie API
   Support for SameSite=Foo via apreq_cookie_t flags, so ABI backcompat
@@ -185,7 +185,7 @@
 - C API [Philip M. Gollucci]
   Use the APREQ_DEFAULT_READ_LIMIT constant for the read_limit
 
-- C API [Ville Skyttä, Dirk Nehring]
+- C API [Ville SkyttÃ¤, Dirk Nehring]
   Add explicit cast in apreq_escape()/apreq_util.h to keep
   C++ compilers happy.
 
@@ -195,7 +195,7 @@
 
 - C API [joes]
   Clean up end-of-file parsing for apreq_parse_multipart(),
-  conforming to rfc-2046 § 5.1.1.
+  conforming to rfc-2046 Â§ 5.1.1.
 
 - Perl API [joes]
   Move APR::Request::Param::Table and APR::Request::Cookie::Table
@@ -236,7 +236,7 @@
 @subsubsection v2_06_dev Changes with libapreq2-2.06-dev (released July 20, 2005)
 
 
-- C API [Marc Gràcia, joes]
+- C API [Marc GrÃ cia, joes]
   Fix apreq_decode(v) when iso-latin-1 chars appear
   at the end of an encoded string.
 
@@ -608,7 +608,7 @@
   $upload->info returns a proper APR::Table object now. Also implemented
   $upload->size, $upload->fh, and $upload->type.
 
-- C API [Jean-François Meesse]
+- C API [Jean-FranÃ§ois Meesse]
   mfd parser fails to parse CRLF-terminated files when the terminating
   boundary string is at the start of a new bucket.  This is reportedly
   a common event for PDF files uploaded with Netscape 7.
