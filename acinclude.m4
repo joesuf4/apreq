@@ -239,7 +239,7 @@ dnl Fallback to oldest version available
         APREQ_DOTTED_VERSION=`$get_version all  $version_hdr APREQ`
 
         # XXX: APR_MAJOR_VERSION doesn't yet work for static builds
-        APREQ_LIBTOOL_CURRENT=`expr $APREQ_MAJOR_VERSION + $APREQ_MINOR_VERSION + $APR_MAJOR_VERSION`
+        APREQ_LIBTOOL_CURRENT=`expr $APREQ_MAJOR_VERSION + $APREQ_MINOR_VERSION + $APR_MAJOR_VERSION - 1`
         APREQ_LIBTOOL_REVISION=$APREQ_PATCH_VERSION
         APREQ_LIBTOOL_AGE=$APREQ_MINOR_VERSION
 
