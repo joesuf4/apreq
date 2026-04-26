@@ -723,7 +723,7 @@ static apr_status_t apreq_fwritev(apr_file_t *f, struct iovec *v,
 # ifdef __GNUC__
         /*
          * iovec.iov_len is a long here
-         * which causes a comparison between 
+         * which causes a comparison between
          * signed(long) and unsigned(apr_size_t)
          *
          */
@@ -731,7 +731,7 @@ static apr_status_t apreq_fwritev(apr_file_t *f, struct iovec *v,
 # else
           /*
            * Sun C however defines this as size_t which is unsigned
-           * 
+           *
            */
         while (n < *nelts && len >= v[n].iov_len)
 # endif /* !__GNUC__ */
@@ -1111,8 +1111,9 @@ APREQ_DECLARE(apr_status_t) apreq_brigade_concat(apr_pool_t *pool,
         if (s != APR_SUCCESS)
             return s;
 
-        apr_brigade_cleanup(out);
-        last_out = apr_bucket_file_create(file, 0, wlen,
+
+        apreq_brigade_setaside(out,out->p);
+        last_out = apr_bucket_file_create(file, wlen, 0,
                                           out->p, out->bucket_alloc);
         last_out->type = &spool_bucket_type;
         APR_BRIGADE_INSERT_TAIL(out, last_out);
