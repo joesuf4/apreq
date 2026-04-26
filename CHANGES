@@ -6,6 +6,9 @@
 - C/Perl Cookie API
   Support for SameSite=Foo via apreq_cookie_t flags, so ABI backcompat
 
+- Perl Param API
+  will mark valid UTF-8 as such in Perl, regardless of taintedness
+
 @subsubsection v2_18 Changes with libapreq2-2.18 (unreleased)
 
 - Multipart parser
